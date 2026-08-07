@@ -1,0 +1,124 @@
+{
+  "entities": {
+    "Room": {
+      "title": "Room",
+      "description": "Represents a room in the guesthouse",
+      "type": "object",
+      "properties": {
+        "roomNumber": { "type": "string" },
+        "status": { "type": "string", "enum": ["empty", "occupied", "booked"] },
+        "currentBookingId": { "type": "string", "description": "ID of the active booking if occupied or booked" }
+      },
+      "required": ["roomNumber", "status"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Represents a room rental booking",
+      "type": "object",
+      "properties": {
+        "guestName": { "type": "string" },
+        "roomNumber": { "type": "string" },
+        "checkIn": { "type": "string", "format": "date-time" },
+        "checkOut": { "type": "string", "format": "date-time" },
+        "phone": { "type": "string" },
+        "deposit": { "type": "number" },
+        "paymentType": { "type": "string", "enum": ["cash", "transfer", "unpaid", "partial"] },
+        "status": { "type": "string", "enum": ["active", "completed", "cancelled", "on-way"] },
+        "guarantee": { "type": "string", "description": "Jaminan tamu (KTP, etc)" },
+        "notes": { "type": "string", "description": "Keterangan tamu" },
+        "totalAmount": { "type": "number" },
+        "shiftId": { "type": "string" }
+      },
+      "required": ["guestName", "roomNumber", "checkIn", "status", "shiftId"]
+    },
+    "Beverage": {
+      "title": "Beverage",
+      "description": "Represents a beverage product",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "stock": { "type": "number" },
+        "price": { "type": "number" }
+      },
+      "required": ["name", "stock", "price"]
+    },
+    "BeverageSale": {
+      "title": "BeverageSale",
+      "description": "Represents a sale of a beverage",
+      "type": "object",
+      "properties": {
+        "beverageId": { "type": "string" },
+        "beverageName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "shiftId": { "type": "string" }
+      },
+      "required": ["beverageId", "quantity", "totalAmount", "timestamp", "shiftId"]
+    },
+    "Shift": {
+      "title": "Shift",
+      "description": "Represents a work shift",
+      "type": "object",
+      "properties": {
+        "startTime": { "type": "string", "format": "date-time" },
+        "endTime": { "type": "string", "format": "date-time" },
+        "type": { "type": "string", "enum": ["pagi", "malam"] },
+        "employeeName": { "type": "string" },
+        "totalRentalIncome": { "type": "number" },
+        "totalBeverageIncome": { "type": "number" },
+        "totalOperationalExpense": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "closed"] }
+      },
+      "required": ["startTime", "type", "employeeName", "status"]
+    },
+    "OperationalExpense": {
+      "title": "OperationalExpense",
+      "description": "Represents an operational expense during a shift",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "shiftId": { "type": "string" }
+      },
+      "required": ["amount", "description", "timestamp", "shiftId"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "Represents an employee/staff member",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "pin": { "type": "string", "description": "6-digit security PIN for login" }
+      },
+      "required": ["name", "status", "pin"]
+    },
+    "EmployeeRegistration": {
+      "title": "EmployeeRegistration",
+      "description": "Represents a registration request from a new employee",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "pin": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "pin", "status", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/rooms/{roomId}": { "schema": "Room", "description": "Collection of rooms" },
+    "/bookings/{bookingId}": { "schema": "Booking", "description": "Collection of bookings" },
+    "/beverages/{beverageId}": { "schema": "Beverage", "description": "Collection of beverages" },
+    "/beverageSales/{saleId}": { "schema": "BeverageSale", "description": "Collection of beverage sales" },
+    "/shifts/{shiftId}": { "schema": "Shift", "description": "Collection of shifts" },
+    "/expenses/{expenseId}": { "schema": "OperationalExpense", "description": "Collection of operational expenses" },
+    "/settings/{settingId}": { "schema": "object", "description": "Application settings" },
+    "/employees/{employeeId}": { "schema": "Employee", "description": "Collection of employees" },
+    "/registrations/{registrationId}": { "schema": "EmployeeRegistration", "description": "Collection of employee registration requests" }
+  }
+}

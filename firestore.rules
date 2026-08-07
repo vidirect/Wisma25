@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow write: if isAuthenticated(); 
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    match /beverages/{beverageId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /beverageSales/{saleId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    match /shifts/{shiftId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    match /expenses/{expenseId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    match /employees/{employeeId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /registrations/{registrationId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+  }
+}

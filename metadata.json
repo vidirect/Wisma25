@@ -1,0 +1,8 @@
+{
+  "name": "Wisma & Beverage Manager",
+  "description": "A comprehensive management system for guesthouse rentals and beverage sales, featuring real-time room monitoring, shift-based reporting, and PDF exports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
